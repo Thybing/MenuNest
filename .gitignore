@@ -2,7 +2,9 @@
 !**/
 
 !README.md
+!LICENSE
 !CMakeLists.txt
 !/**/.gitkeep
 !src/*
 !inc/*
+!doc/*.md
