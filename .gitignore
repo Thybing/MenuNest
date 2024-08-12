@@ -5,6 +5,9 @@
 !LICENSE
 !CMakeLists.txt
 !/**/.gitkeep
-!src/*
-!inc/*
-!doc/*.md
+!src/**/*
+!inc/**/*
+!doc/design/*.md
+!script/Doxyfile
+!tests/moudle_test/*.c
+!tests/project_test/*.c
