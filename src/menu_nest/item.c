@@ -18,7 +18,7 @@ void MN_item_destroy(MN_item * const self){
     free(self);
 }
 
-void MN_item_set_display_callback(MN_item * const self, const display_callback_t callback){
+void MN_item_set_display_callback(MN_item * const self, const item_display_callback_t callback){
     self->m_display_callback = callback;
 }
 

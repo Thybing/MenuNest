@@ -19,7 +19,7 @@ struct MN_item; //前向声明
  * @brief 显示回调函数类型定义
  * ************************************************************************
  */
-typedef void (* display_callback_t)(struct MN_item * const);
+typedef void (* item_display_callback_t)(struct MN_item * const);
 
 /**
  * ************************************************************************
@@ -32,7 +32,7 @@ typedef struct MN_item
     MN_interaction * mp_interaction;
 
     /// @brief 显示回调函数
-    display_callback_t m_display_callback;
+    item_display_callback_t m_display_callback;
 
     /// @brief 指向内存空间的指针，指向不同的类型的内存生成不同的物体对象
     void * mp_memory;
@@ -69,7 +69,7 @@ void MN_item_destroy(MN_item * const self);
  * 
  * ************************************************************************
  */
-void MN_item_set_display_callback(MN_item * const self, const display_callback_t callback);
+void MN_item_set_display_callback(MN_item * const self, const item_display_callback_t callback);
 
 /**
  * ************************************************************************
