@@ -49,7 +49,7 @@ typedef struct MN_interaction
  * @return  申请的交互模块对象
  * ************************************************************************
  */
-MN_interaction * MN_create_interaction(void * const p_op_memory);
+MN_interaction * MN_interaction_create(void * const p_op_memory);
 
 /**
  * ************************************************************************
@@ -60,7 +60,7 @@ MN_interaction * MN_create_interaction(void * const p_op_memory);
  * @warning 请在析构后将对象指针置空，避免出现悬挂指针
  * ************************************************************************
  */
-void MN_destroy_interaction(MN_interaction * const self);
+void MN_interaction_destroy(MN_interaction * const self);
 
 /**
  * ************************************************************************
@@ -71,7 +71,7 @@ void MN_destroy_interaction(MN_interaction * const self);
  * 
  * ************************************************************************
  */
-void MN_set_handle_callback(MN_interaction * const self,const handle_callback_t handle_callback);
+void MN_interaction_set_handle_callback(MN_interaction * const self,const handle_callback_t callback);
 
 /**
  * ************************************************************************
@@ -82,6 +82,6 @@ void MN_set_handle_callback(MN_interaction * const self,const handle_callback_t 
  * 
  * ************************************************************************
  */
-void MN_handle_input(MN_interaction * const self,const input_t input);
+void MN_interaction_handle_input(MN_interaction * const self,const input_t input);
 
 #endif //_MENU_NEST_INTERACTION_H_
