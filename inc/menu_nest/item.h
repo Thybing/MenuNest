@@ -23,7 +23,7 @@ typedef void (* display_callback_t)(struct MN_item * const);
 
 /**
  * ************************************************************************
- * @brief 物体对象（子对象）结构体
+ * @brief 物体对象
  * ************************************************************************
  */
 typedef struct MN_item
@@ -31,10 +31,10 @@ typedef struct MN_item
     /// @brief 交互模块
     MN_interaction * mp_interaction;
 
-    /// @brief 显示模块回调函数
+    /// @brief 显示回调函数
     display_callback_t m_display_callback;
 
-    /// @brief 指向对象内存空间的指针
+    /// @brief 指向内存空间的指针，指向不同的类型的内存生成不同的物体对象
     void * mp_memory;
 } MN_item;
 
