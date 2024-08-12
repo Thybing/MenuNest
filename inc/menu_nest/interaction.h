@@ -28,19 +28,19 @@ typedef struct MN_interaction
     /// @brief 交互处理回调函数
     void (* m_handle_callback)(struct MN_interaction * const,const input_t);
     /// @brief 可操作内存
-    void * mp_op_buffer;
+    void * mp_op_memory;
 }MN_interaction;
 
 /**
  * ************************************************************************
  * @brief 构造一个交互模块对象并返回
  * 
- * @param[in] p_op_buffer   构造时传入可被交互模块操作的内存空间
+ * @param[in] p_op_memory   构造时传入可被交互模块操作的内存空间
  * 
  * @return  申请的交互模块对象
  * ************************************************************************
  */
-MN_interaction * MN_create_interaction(void * const p_op_buffer);
+MN_interaction * MN_create_interaction(void * const p_op_memory);
 
 /**
  * ************************************************************************

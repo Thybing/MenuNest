@@ -1,11 +1,11 @@
 #include "menu_nest/interaction.h"
 #include "stdlib.h"
 
-MN_interaction * MN_create_interaction(void * const p_op_buffer){
+MN_interaction * MN_create_interaction(void * const p_op_memory){
     MN_interaction * new_moudle = (MN_interaction *)malloc(sizeof(MN_interaction));
     if(new_moudle){
         new_moudle->m_handle_callback = NULL;
-        new_moudle->mp_op_buffer = p_op_buffer;
+        new_moudle->mp_op_memory = p_op_memory;
     }
     return new_moudle;
 }
