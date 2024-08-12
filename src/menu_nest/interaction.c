@@ -14,7 +14,7 @@ void MN_destroy_interaction(MN_interaction * const self){
     free(self);
 }
 
-void MN_set_handle_callback(MN_interaction * const self,void (* const handle_callback)(struct MN_interaction * const ,const input_t)){
+void MN_set_handle_callback(MN_interaction * const self,const handle_callback_t handle_callback){
     self->m_handle_callback = handle_callback;
 }
 

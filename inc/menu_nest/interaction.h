@@ -18,6 +18,15 @@
  */
 typedef uint32_t input_t;
 
+struct MN_interaction;//前向声明
+/**
+ * ************************************************************************
+ * @brief 交互处理回调函数类型
+ * @note  需要struct MN_interaction的前向声明 
+ * ************************************************************************
+ */
+typedef void (* handle_callback_t)(struct MN_interaction * const,const input_t);
+
 /**
  * ************************************************************************
  * @brief 交互模块
@@ -26,7 +35,7 @@ typedef uint32_t input_t;
 typedef struct MN_interaction
 {
     /// @brief 交互处理回调函数
-    void (* m_handle_callback)(struct MN_interaction * const,const input_t);
+    handle_callback_t m_handle_callback;
     /// @brief 可操作内存
     void * mp_op_memory;
 }MN_interaction;
@@ -62,7 +71,7 @@ void MN_destroy_interaction(MN_interaction * const self);
  * 
  * ************************************************************************
  */
-void MN_set_handle_callback(MN_interaction * const self,void (* const handle_callback)(struct MN_interaction * const,const input_t));
+void MN_set_handle_callback(MN_interaction * const self,const handle_callback_t handle_callback);
 
 /**
  * ************************************************************************
