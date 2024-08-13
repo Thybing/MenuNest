@@ -22,7 +22,6 @@ struct MN_interaction;//前向声明
 /**
  * ************************************************************************
  * @brief 交互处理回调函数类型
- * @note  需要struct MN_interaction的前向声明 
  * ************************************************************************
  */
 typedef void (* handle_callback_t)(struct MN_interaction * const,const input_t);
