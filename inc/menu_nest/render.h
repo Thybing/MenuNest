@@ -1,3 +1,12 @@
+/**
+ * ************************************************************************
+ * @file render.h
+ * @author Thybing (yanbinghao86@gmail.com)
+ * @brief 菜单的渲染对象
+ * @version 1.0.0
+ * @date 2024-8-13
+ * ************************************************************************
+ */
 #ifndef _MENU_NEST_RENDER_H_
 #define _MENU_NEST_RENDER_H_
 
