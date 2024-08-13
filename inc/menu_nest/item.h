@@ -12,6 +12,7 @@
 
 #include "stdint.h"
 #include "menu_nest/interaction.h"
+#include "menu_nest/render.h"
 
 struct MN_item; //前向声明
 /**
@@ -31,8 +32,8 @@ typedef struct MN_item
     /// @brief 交互模块
     MN_interaction * mp_interaction;
 
-    /// @brief 显示回调函数
-    item_display_callback_t m_display_callback;
+    /// @brief 渲染/显示模块
+    MN_render * mp_render;
 
     /// @brief 指向内存空间的指针，指向不同的类型的内存生成不同的物体对象
     void * mp_memory;
@@ -62,17 +63,6 @@ void MN_item_destroy(MN_item * const self);
 
 /**
  * ************************************************************************
- * @brief 设置显示回调函数
- * 
- * @param[in] self  指向物体对象
- * @param[in] display_callback 显示回调函数
- * 
- * ************************************************************************
- */
-void MN_item_set_display_callback(MN_item * const self, const item_display_callback_t callback);
-
-/**
- * ************************************************************************
  * @brief 设置交互处理回调函数
  * 
  * @param[in] self  指向物体对象
@@ -81,15 +71,5 @@ void MN_item_set_display_callback(MN_item * const self, const item_display_callb
  * ************************************************************************
  */
 void MN_item_set_handle_callback(MN_item * const self, const handle_callback_t callback);
-
-/**
- * ************************************************************************
- * @brief 刷新显示
- * 
- * @param[in] self  指向物体对象
- * 
- * ************************************************************************
- */
-void MN_item_refresh_display(MN_item * const self);
 
 #endif //_MENU_NEST_ITEM_H_
