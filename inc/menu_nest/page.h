@@ -4,15 +4,6 @@
 #include "menu_nest/item.h"
 #include "menu_nest/interaction.h"
 
-struct MN_page; // 前向声明
-
-/**
- * ************************************************************************
- * @brief 页面显示回调函数类型定义
- * ************************************************************************
- */
-typedef void (*page_display_callback_t)(struct MN_page * const);
-
 /**
  * ************************************************************************
  * @brief 页面对象结构体
@@ -21,22 +12,22 @@ typedef void (*page_display_callback_t)(struct MN_page * const);
 typedef struct MN_page
 {
     /// @brief 物体对象指针数组
-    MN_item ** m_items;
+    MN_item ** mpp_items;
 
-    /// @brief 当前物体对象指针
-    MN_item * m_current_item;
+    /// @brief 当前物体对象下标，-1表示未选择
+    int32_t m_current_index;
 
     /// @brief 物体对象的数量
     uint32_t m_item_count;
 
     /// @brief 物体对象的最大数量
-    uint32_t m_item_count;
-
-    /// @brief 页面显示回调函数
-    page_display_callback_t m_display_callback;
+    uint32_t m_item_max;
 
     /// @brief 交互模块
     MN_interaction * mp_interaction;
+
+    /// @brief 渲染/显示模块
+    MN_render * mp_render;
 } MN_page;
 
 /**
@@ -68,30 +59,30 @@ void MN_page_destroy(MN_page * const self);
  * @param[in] self  指向页面对象
  * @param[in] item  要添加的物体对象
  * 
- * @return 是否成功添加
  * ************************************************************************
  */
-bool MN_page_add_item(MN_page * const self, MN_item * const item);
+void MN_page_add_item(MN_page * const self, MN_item * const item);
 
 /**
  * ************************************************************************
- * @brief 设置页面显示回调函数
+ * @brief 设置页面交互回调函数
  * 
  * @param[in] self  指向页面对象
- * @param[in] display_callback 页面显示回调函数
- * 
+ * @param[in] callback  处理回调函数
  * ************************************************************************
  */
-void MN_page_set_display_callback(MN_page * const self, const page_display_callback_t callback);
+void MN_page_set_handle_callback(MN_page * const self,handle_callback_t callback); 
 
 /**
  * ************************************************************************
- * @brief 刷新页面显示
+ * @brief 选择页面中的物体对象
  * 
  * @param[in] self  指向页面对象
+ * @param[in] index  要选择的物体对象的下标。(超出有效范围算作取消选择)
  * 
+ * @return 选择的物体对象指针(取消选择返回NULL)
  * ************************************************************************
  */
-void MN_page_refresh_display(MN_page * const self);
+MN_item * MN_page_select_item(MN_page * const self,int32_t index);
 
 #endif //_MENU_NEST_PAGE_H_
