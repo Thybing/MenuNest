@@ -80,7 +80,7 @@ void MN_page_add_item(MN_page * const self, MN_item * const item);
  * @param[in] callback  处理回调函数
  * ************************************************************************
  */
-void MN_page_set_handle_callback(MN_page * const self,handle_callback_t callback); 
+void MN_page_set_handle_callback(MN_page * const self,const handle_callback_t callback); 
 
 /**
  * ************************************************************************
@@ -92,6 +92,6 @@ void MN_page_set_handle_callback(MN_page * const self,handle_callback_t callback
  * @return 选择的物体对象指针(取消选择返回NULL)
  * ************************************************************************
  */
-MN_item * MN_page_select_item(MN_page * const self,int32_t index);
+MN_item * MN_page_select_item(MN_page * const self,const int32_t index);
 
 #endif //_MENU_NEST_PAGE_H_
