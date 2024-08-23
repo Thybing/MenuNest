@@ -12,20 +12,8 @@
 #define _MENU_NEST_MENU_H_
 #include "menu_nest/page.h"
 
-static const uint32_t MN_main_page_item_max = 8;
-static const uint32_t MN_history_page_max = 16;
-
 //前向声明
 typedef struct MN_menu MN_menu;
-
-// /**
-//  * ************************************************************************
-//  * @brief 获取菜单对象指针
-//  * 
-//  * @return 菜单对象指针
-//  * ************************************************************************
-//  */
-// MN_menu * MN_get_menu();
 
 /**
  * ************************************************************************
@@ -53,5 +41,15 @@ void MN_menu_page_forward(MN_page * const p_target_page);
  * ************************************************************************
  */
 void MN_menu_page_retreat();
+
+/**
+ * ************************************************************************
+ * @brief 为菜单设置交互回调函数
+ * 
+ * @param[in] callback  交互回调函数
+ * 
+ * ************************************************************************
+ */
+void MN_menu_set_handle_callback(const handle_callback_t callback);
 
 #endif //_MENU_NEST_MENU_H_
