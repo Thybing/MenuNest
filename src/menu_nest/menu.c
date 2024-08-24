@@ -52,3 +52,7 @@ void MN_menu_page_retreat(){
 void MN_menu_set_handle_callback(const handle_callback_t callback){
     MN_interaction_set_handle_callback(MN_get_menu()->mp_interaction,callback);
 }
+
+void MN_menu_rendering(){
+    MN_render_rendering(MN_get_cur_page()->mp_render);
+}

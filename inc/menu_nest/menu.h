@@ -82,4 +82,12 @@ void MN_menu_page_retreat();
  */
 void MN_menu_set_handle_callback(const handle_callback_t callback);
 
+/**
+ * ************************************************************************
+ * @brief 显示/渲染菜单当前页面
+ * 
+ * ************************************************************************
+ */
+void MN_menu_rendering();
+
 #endif //_MENU_NEST_MENU_H_

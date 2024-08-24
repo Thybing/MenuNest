@@ -84,7 +84,7 @@ int menu_test_main(){
         int count;
         while(1){
             system("cls");
-            MN_render_rendering(MN_get_cur_page()->mp_render);
+            MN_menu_rendering();
             count++;
             if(count == 10){
                 MN_interaction_handle_input(MN_get_cur_page()->mp_interaction,0);
