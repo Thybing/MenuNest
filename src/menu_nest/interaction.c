@@ -18,6 +18,6 @@ void MN_interaction_set_handle_callback(MN_interaction * const self,const handle
     self->m_handle_callback = callback;
 }
 
-void MN_interaction_handle_input(MN_interaction * const self,const input_t input){
-    self->m_handle_callback(self,input);
+bool MN_interaction_handle_input(MN_interaction * const self,const input_t input){
+    return self->m_handle_callback(self,input);
 }

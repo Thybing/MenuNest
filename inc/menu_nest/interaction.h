@@ -10,6 +10,7 @@
 #ifndef _MENU_NEST_INTERACTION_H_
 #define _MENU_NEST_INTERACTION_H_
 #include "stdint.h"
+#include "stdbool.h"
 
 /**
  * ************************************************************************
@@ -19,12 +20,14 @@
 typedef uint32_t input_t;
 
 struct MN_interaction;//前向声明
+
 /**
  * ************************************************************************
  * @brief 交互处理回调函数类型
+ * @return 函数交互模块是否捕获此输入
  * ************************************************************************
  */
-typedef void (* handle_callback_t)(struct MN_interaction * const,const input_t);
+typedef bool (* handle_callback_t)(struct MN_interaction * const,const input_t);
 
 /**
  * ************************************************************************
@@ -79,8 +82,9 @@ void MN_interaction_set_handle_callback(MN_interaction * const self,const handle
  * @param[in] self  指向调用对象
  * @param[in] input  输入
  * 
+ * @return 输入模块是否捕获此输入
  * ************************************************************************
  */
-void MN_interaction_handle_input(MN_interaction * const self,const input_t input);
+bool MN_interaction_handle_input(MN_interaction * const self,const input_t input);
 
 #endif //_MENU_NEST_INTERACTION_H_

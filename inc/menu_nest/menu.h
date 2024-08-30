@@ -21,10 +21,24 @@
  * ************************************************************************
  */
 typedef struct MN_menu{
+    /// @brief 菜单主页面指针
     MN_page * mp_main_page;
+
+    /// @brief 菜单历史页面栈
     MN_page ** mpp_history_page_stack;
+    /// @brief 菜单历史页面栈顶下标(仅有主页面时为0)
     uint32_t m_history_top_index;
+
+    /// @brief 菜单交互模块
     MN_interaction * mp_interaction;
+
+    /// @brief 菜单输入队列
+    input_t * mp_input_queue;
+    /// @brief 菜单输入队列头
+    uint32_t input_queue_head;
+    /// @brief 菜单输入队列尾
+    uint32_t input_queue_tail;
+
 }MN_menu;
 
 /**
@@ -89,5 +103,24 @@ void MN_menu_set_handle_callback(const handle_callback_t callback);
  * ************************************************************************
  */
 void MN_menu_rendering();
+
+/**
+ * ************************************************************************
+ * @brief 向菜单的输入队列中添加消息
+ * 
+ * @param[in] input  菜单输入
+ * 
+ * ************************************************************************
+ */
+void MN_menu_input(const input_t input);
+
+/**
+ * ************************************************************************
+ * @brief 处理输入队列中的消息
+ * @details 将队列中的消息取出，依次输入到当前item，当前页面，menu的输入模块中。如果在某个输入模块被捕获，则不会输入到后面的输入模块
+ * 
+ * ************************************************************************
+ */
+void MN_menu_handle_input_queue();
 
 #endif //_MENU_NEST_MENU_H_
