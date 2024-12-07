@@ -14,14 +14,6 @@
 #include "menu_nest/interaction.h"
 #include "menu_nest/render.h"
 
-struct MN_item; //前向声明
-/**
- * ************************************************************************
- * @brief 显示回调函数类型定义
- * ************************************************************************
- */
-typedef void (* item_display_callback_t)(struct MN_item * const);
-
 /**
  * ************************************************************************
  * @brief 物体对象
@@ -29,6 +21,9 @@ typedef void (* item_display_callback_t)(struct MN_item * const);
  */
 typedef struct MN_item
 {
+    /// @brief 物体名称
+    char * name;
+
     /// @brief 交互模块
     MN_interaction * mp_interaction;
 
@@ -60,16 +55,5 @@ MN_item * MN_item_create(void * const p_memory);
  * ************************************************************************
  */
 void MN_item_destroy(MN_item * const self);
-
-/**
- * ************************************************************************
- * @brief 设置交互处理回调函数
- * 
- * @param[in] self  指向物体对象
- * @param[in] handle_callback  交互处理回调函数
- * 
- * ************************************************************************
- */
-void MN_item_set_handle_callback(MN_item * const self, const handle_callback_t callback);
 
 #endif //_MENU_NEST_ITEM_H_

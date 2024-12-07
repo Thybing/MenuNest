@@ -27,10 +27,6 @@ void MN_page_add_item(MN_page * const self, MN_item * const item){
     }
 }
 
-void MN_page_set_handle_callback(MN_page * const self,const handle_callback_t callback){
-    MN_interaction_set_handle_callback(self->mp_interaction,callback);
-}
-
 MN_item * MN_page_select_item(MN_page * const self,const int32_t index){
     if(index >= 0 && index < self->m_item_count){
         self->m_current_index = index;

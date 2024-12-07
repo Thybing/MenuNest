@@ -27,7 +27,7 @@ struct MN_interaction;//前向声明
  * @return 函数交互模块是否捕获此输入
  * ************************************************************************
  */
-typedef bool (* handle_callback_t)(struct MN_interaction * const,const input_t);
+typedef bool (* interaction_callback_t)(struct MN_interaction * const,const input_t);
 
 /**
  * ************************************************************************
@@ -37,21 +37,21 @@ typedef bool (* handle_callback_t)(struct MN_interaction * const,const input_t);
 typedef struct MN_interaction
 {
     /// @brief 交互处理回调函数
-    handle_callback_t m_handle_callback;
+    interaction_callback_t m_handle_callback;
     /// @brief 可操作内存
-    void * mp_op_memory;
+    void * mp_memory;
 }MN_interaction;
 
 /**
  * ************************************************************************
  * @brief 构造一个交互模块对象并返回
  * 
- * @param[in] p_op_memory   构造时传入可被交互模块操作的内存空间
+ * @param[in] p_memory   构造时传入可被交互模块操作的内存空间
  * 
  * @return  申请的交互模块对象
  * ************************************************************************
  */
-MN_interaction * MN_interaction_create(void * const p_op_memory);
+MN_interaction * MN_interaction_create(void * const p_memory);
 
 /**
  * ************************************************************************
@@ -73,7 +73,7 @@ void MN_interaction_destroy(MN_interaction * const self);
  * 
  * ************************************************************************
  */
-void MN_interaction_set_handle_callback(MN_interaction * const self,const handle_callback_t callback);
+void MN_interaction_set_handle_callback(MN_interaction * const self,const interaction_callback_t callback);
 
 /**
  * ************************************************************************

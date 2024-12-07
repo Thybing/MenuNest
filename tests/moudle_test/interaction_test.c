@@ -2,7 +2,7 @@
 #include "menu_nest/interaction.h"
 
 void handle_callback(MN_interaction * const o_MN_interaction,const input_t input){
-    char * p_op_memory = (char *)(o_MN_interaction->mp_op_memory);
+    char * p_op_memory = (char *)(o_MN_interaction->mp_memory);
     printf("%u\n",input);
     p_op_memory[input] = input + '0';
 }

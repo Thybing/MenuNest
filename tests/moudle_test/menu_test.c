@@ -14,7 +14,7 @@ bool menu_handle_callback(MN_interaction * inter, input_t input){
 }
 
 bool page_handle_callback(MN_interaction * inter, input_t input){
-    MN_page * p_page = (MN_page *)(inter->mp_op_memory);
+    MN_page * p_page = (MN_page *)(inter->mp_memory);
     MN_page_select_item(p_page,input);
     return true;
 }

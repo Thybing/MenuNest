@@ -4,7 +4,7 @@
 #include "menu_nest/item.h"
 
 void handle_callback(MN_interaction * const obj,const input_t input){
-    MN_item * p_MN_item = (MN_item *)(obj->mp_op_memory);
+    MN_item * p_MN_item = (MN_item *)(obj->mp_memory);
     char * test_memory = (char *)(p_MN_item->mp_memory);
     if(input == 0){
         strcpy(test_memory,"zero");

@@ -17,7 +17,3 @@ void MN_item_destroy(MN_item * const self){
     self->mp_interaction = NULL;
     free(self);
 }
-
-void MN_item_set_handle_callback(MN_item * const self, const handle_callback_t callback){
-    MN_interaction_set_handle_callback(self->mp_interaction,callback);
-}

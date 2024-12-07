@@ -72,15 +72,6 @@ void MN_page_destroy(MN_page * const self);
  */
 void MN_page_add_item(MN_page * const self, MN_item * const item);
 
-/**
- * ************************************************************************
- * @brief 设置页面交互回调函数
- * 
- * @param[in] self  指向页面对象
- * @param[in] callback  处理回调函数
- * ************************************************************************
- */
-void MN_page_set_handle_callback(MN_page * const self,const handle_callback_t callback); 
 
 /**
  * ************************************************************************
