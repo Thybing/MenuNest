@@ -1,9 +1,10 @@
 #include "menu_nest/page.h"
 #include "stdlib.h"
 
-MN_page * MN_page_create(const uint32_t item_max){
+MN_page * MN_page_create(const char * const title, const uint32_t item_max){
     MN_page * new_page = (MN_page *)malloc(sizeof(MN_page));
     if(new_page){
+        new_page->m_title = title;
         new_page->mpp_items = (MN_item **)malloc(sizeof(MN_item *) * item_max);
         new_page->m_current_index = -1;
         new_page->m_item_count = 0;

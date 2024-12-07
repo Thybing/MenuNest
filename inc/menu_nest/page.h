@@ -13,6 +13,8 @@
 #include "menu_nest/item.h"
 #include "menu_nest/interaction.h"
 
+#define MN_CONFIG_PAGE_TITLE_MAX_LEN 32
+
 /**
  * ************************************************************************
  * @brief 页面对象结构体
@@ -20,6 +22,9 @@
  */
 typedef struct MN_page
 {
+    /// @brief 页面的标题
+    char * m_title;
+
     /// @brief 物体对象指针数组
     MN_item ** mpp_items;
 
@@ -43,12 +48,13 @@ typedef struct MN_page
  * ************************************************************************
  * @brief 创建一个页面对象
  * 
+ * @param[in] title 页面的标题
  * @param[in] max_items 最大物体对象数量
  * 
  * @return  创建的页面对象指针
  * ************************************************************************
  */
-MN_page * MN_page_create(const uint32_t max_items);
+MN_page * MN_page_create(const char * const title, const uint32_t max_items);
 
 /**
  * ************************************************************************

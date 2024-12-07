@@ -14,6 +14,7 @@
 #include "menu_nest/interaction.h"
 #include "menu_nest/render.h"
 
+
 /**
  * ************************************************************************
  * @brief 物体对象
@@ -22,7 +23,7 @@
 typedef struct MN_item
 {
     /// @brief 物体名称
-    char * name;
+    char * m_name;
 
     /// @brief 交互模块
     MN_interaction * mp_interaction;
@@ -38,12 +39,13 @@ typedef struct MN_item
  * ************************************************************************
  * @brief 创建一个物体对象
  * 
+ * @param[in] name 物体的名称
  * @param[in] p_memory  指向分配给对象的内存空间
  * 
  * @return  创建的物体对象指针
  * ************************************************************************
  */
-MN_item * MN_item_create(void * const p_memory);
+MN_item * MN_item_create(const char * const name, void * const p_memory);
 
 /**
  * ************************************************************************
