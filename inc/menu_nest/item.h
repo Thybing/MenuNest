@@ -14,6 +14,9 @@
 #include "menu_nest/interaction.h"
 #include "menu_nest/render.h"
 
+struct MN_item;
+
+typedef void * ((*MN_item_action_t)(MN_item * const,void *)) ;
 
 /**
  * ************************************************************************
@@ -30,6 +33,12 @@ typedef struct MN_item
 
     /// @brief 渲染/显示模块
     MN_render * mp_render;
+
+    /// @brief 在被选中时调用
+    MN_item_action_t mp_on_select;
+
+    /// @brief 在取消选中时调用
+    MN_item_action_t mp_on_unselect;
 
     /// @brief 指向内存空间的指针，指向不同的类型的内存生成不同的物体对象
     void * mp_memory;
