@@ -6,6 +6,12 @@
 static MN_page * (page_pool[MN_PAGE_MAX_NUM]) = {0};
 static uint32_t page_pool_used = 0;
 
+//page进入和离开的默认函数
+static void * ((MN_page_action_empty_callback)(MN_page * const self,void * param)){
+    MN_assert(self);
+    return NULL;
+}
+
 MN_page * MN_page_create(const char * const title, const uint32_t item_max){
     MN_assert(title);
 
@@ -89,15 +95,10 @@ MN_item * MN_page_select_item_name(MN_page * const self, const char * item_name)
 
 MN_page * MN_find_page(const char * const title){
     for(int i = 0;i < page_pool_used;i++){
-        if(strcmp(page_pool[i]->m_title,title == 0)){
+        if(strcmp(page_pool[i]->m_title,title) == 0){
             return page_pool[i];
         }
     }
     return NULL;
 }
 
-//page进入和离开的默认函数
-static void * ((MN_page_action_empty_callback)(MN_page * const self,void * param)){
-    MN_assert(self);
-    return NULL;
-}

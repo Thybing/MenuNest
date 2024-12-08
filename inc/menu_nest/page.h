@@ -15,7 +15,7 @@
 
 struct MN_page;
 
-typedef void * ((*MN_page_action_callback_t)(MN_page * const,void *)) ;
+typedef void * ((*MN_page_action_callback_t)(struct MN_page * const,void *)) ;
 
 /**
  * ************************************************************************
@@ -25,7 +25,7 @@ typedef void * ((*MN_page_action_callback_t)(MN_page * const,void *)) ;
 typedef struct MN_page
 {
     /// @brief 页面的标题
-    char * m_title;
+    const char * m_title;
 
     /// @brief 物体对象指针数组
     MN_item ** mpp_items;

@@ -16,7 +16,7 @@
 
 struct MN_item;
 
-typedef void * ((*MN_item_action_t)(MN_item * const,void *)) ;
+typedef void * ((*MN_item_action_t)(struct MN_item * const,void *)) ;
 
 /**
  * ************************************************************************
@@ -26,7 +26,7 @@ typedef void * ((*MN_item_action_t)(MN_item * const,void *)) ;
 typedef struct MN_item
 {
     /// @brief 物体名称
-    char * m_name;
+    const char * m_name;
 
     /// @brief 交互模块
     MN_interaction * mp_interaction;

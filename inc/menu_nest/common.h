@@ -15,7 +15,7 @@
 #include "assert.h"
 #include "stdlib.h"
 
-#define DEBUG
+//#define DEBUG
 
 #define MN_PAGE_MAX_NUM 16
 #define MN_HISTORY_PAGE_MAX 16

@@ -1,6 +1,12 @@
 #include "menu_nest/item.h"
 #include "menu_nest/common.h"
 
+//item选择和取消选择的默认函数
+static void * ((MN_item_action_empty_callback)(MN_item * const self,void * param)){
+    MN_assert(self);
+    return NULL;
+}
+
 MN_item * MN_item_create(const char * const name, void * const p_memory){
     MN_assert(name);
     MN_assert(p_memory);
@@ -27,8 +33,3 @@ void MN_item_destroy(MN_item * const self){
     MN_free(self);
 }
 
-//item选择和取消选择的默认函数
-static void * ((MN_item_action_empty_callback)(MN_item * const self,void * param)){
-    MN_assert(self);
-    return NULL;
-}
