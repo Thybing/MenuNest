@@ -2,7 +2,7 @@
  * ************************************************************************
  * @file render.h
  * @author Thybing (yanbinghao86@gmail.com)
- * @brief 菜单的渲染对象
+ * @brief 菜单的渲染模块，通过回调函数进行渲染。
  * @version 1.0.0
  * @date 2024-8-13
  * ************************************************************************
@@ -10,7 +10,7 @@
 #ifndef _MENU_NEST_RENDER_H_
 #define _MENU_NEST_RENDER_H_
 
-struct MN_render;//前向声明
+struct MN_render; // 前向声明
 
 /**
  * ************************************************************************
@@ -28,10 +28,10 @@ typedef struct MN_render{
     /// @brief 渲染回调函数
     rendering_callback_t m_rendering_callback;
 
-    /// @brief 需要渲染的信息
-    const void * mp_memory;
+    /// @brief 需要渲染的信息，一般为其所属对象
+    void * mp_memory;
 
-    /// @brief 渲染模块自身属性内存
+    /// @brief 渲染模块自身属性内存，扩展用
     void * mp_attribute;
 }MN_render;
 
@@ -44,7 +44,7 @@ typedef struct MN_render{
  * @return 新构造的渲染模块
  * ************************************************************************
  */
-MN_render * MN_render_create(const void * const p_memory);
+MN_render * MN_render_create(void * const p_memory);
 
 /**
  * ************************************************************************
@@ -84,7 +84,7 @@ void MN_render_set_attribute(MN_render * const self,void * const p_attribute);
  * 
  * @param[in] self  指向渲染模块自身
  * 
- * @return 渲染器属性的地址
+ * @return 渲染器属性指针
  * ************************************************************************
  */
 void * MN_render_get_attribute(MN_render * const self);

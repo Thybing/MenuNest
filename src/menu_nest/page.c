@@ -31,8 +31,12 @@ MN_page * MN_page_create(const char * const title, const uint32_t item_max){
         new_page->m_item_max_num = item_max;
         new_page->mp_interaction = MN_interaction_create(new_page);
         new_page->mp_render = MN_render_create(new_page);
-        new_page->mp_on_forward = &MN_page_action_empty_callback;
-        new_page->mp_on_back = &MN_page_action_empty_callback;
+        new_page->mp_on_forward = MN_page_action_empty_callback;
+        new_page->mp_on_retreat = MN_page_action_empty_callback;
+        new_page->mp_on_retreat_from_other_page = MN_page_action_empty_callback;
+        new_page->mp_on_select_item = MN_page_action_empty_callback;
+        new_page->mp_on_unselect_item = MN_page_action_empty_callback;
+        new_page->mp_memory = NULL;
     }
     return new_page;
 }
@@ -72,28 +76,55 @@ MN_item * MN_page_find_item(MN_page * const self, const char * const item_name){
     return NULL;
 }
 
-MN_item * MN_page_select_item(MN_page * const self,const int32_t index){
+void * MN_page_select_item(MN_page * const self,const int32_t index){
     MN_assert(self);
 
-    if(index >= 0 && index < self->m_item_num){
-        self->m_cur_item_index = index;
-        return (self->mpp_items)[index];
-    }else{
-        self->m_cur_item_index = -1;
+    //输入的index不在有效范围内
+    if(!(index >= 0 && index < self->m_item_num)){
         return NULL;
     }
+    //当前选中的物体和输入的index相同
+    if(self->m_cur_item_index == index){
+        return NULL;
+    }
+
+    //如果有选中物体，取消当前选中的物体
+    if(self->m_cur_item_index != -1) {
+        MN_page_unselect_item(self);
+    }
+
+    self->m_cur_item_index = index;
+    MN_item * p_target_item = (self->mpp_items)[index];
+    void * p_item_select_ret = MN_item_select(p_target_item);
+    return self->mp_on_select_item(self,p_item_select_ret);
 }
 
-MN_item * MN_page_select_item_name(MN_page * const self, const char * item_name){
+void * MN_page_select_item_by_name(MN_page * const self, const char * item_name){
     for(int i = 0;i < self->m_item_num;i++) {
         if(strcmp((self->mpp_items)[i]->m_name,item_name) == 0) {
             return MN_page_select_item(self,i);
         }
     }
-    return MN_page_select_item(self,-1);
+    return NULL;
+}
+
+void * MN_page_unselect_item(MN_page * const self){
+    MN_assert(self);
+
+    if(self->m_cur_item_index != -1) {
+        MN_item * p_cur_item = (self->mpp_items)[self->m_cur_item_index];
+        void * p_item_unselect_ret = MN_item_unselect(p_cur_item);
+
+        void * p_page_unselect_item_ret = self->mp_on_unselect_item(self,p_item_unselect_ret);
+        self->m_cur_item_index = -1;
+        return p_page_unselect_item_ret;
+    }
+    return NULL;
 }
 
 MN_page * MN_find_page(const char * const title){
+    MN_assert(title);
+
     for(int i = 0;i < page_pool_used;i++){
         if(strcmp(page_pool[i]->m_title,title) == 0){
             return page_pool[i];
@@ -101,4 +132,3 @@ MN_page * MN_find_page(const char * const title){
     }
     return NULL;
 }
-

@@ -12,23 +12,17 @@
 #define _MENU_NEST_COMMON_H_
 
 #include "stdint.h"
-#include "assert.h"
-#include "stdlib.h"
+#include "stdbool.h"
 
-//#define DEBUG
+#include "menu_nest/heap.h"
 
 #define MN_PAGE_MAX_NUM 16
 #define MN_HISTORY_PAGE_MAX 16
 #define MN_INPUT_QUEUE_MAX 16
 
-#ifdef DEBUG
-#define MN_assert(x) assert(x);
-#else
-#define MN_assert(x) 
-#endif
+#define MN_assert(x)
 
-#define MN_malloc(x) malloc(x);
-#define MN_free(x) free(x)
-
+#define MN_malloc(x) MN_heap_malloc(x);
+#define MN_free(x) MN_heap_free(x)
 
 #endif //_MENU_NEST_COMMON_H_

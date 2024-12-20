@@ -1,11 +1,16 @@
 #include "menu_nest/render.h"
 #include "menu_nest/common.h"
 
-MN_render * MN_render_create(const void * const p_memory){
+
+static void MN_render_empty_rendering_callback(struct MN_render * const self, void * p_param){
+    MN_assert(self);
+}
+
+MN_render * MN_render_create(void * const p_memory){
     MN_render * new_render = (MN_render *)MN_malloc(sizeof(MN_render));
     if(new_render){
         new_render->mp_memory = p_memory;
-        new_render->m_rendering_callback = NULL;
+        new_render->m_rendering_callback = MN_render_empty_rendering_callback;
         new_render->mp_attribute = NULL;
     }
     return new_render;

@@ -62,9 +62,11 @@ MN_page * MN_get_cur_page(){
 }
 
 void MN_menu_page_forward(MN_page * const p_target_page){
+    MN_assert(p_target_page);
     if(o_MN_menu.m_history_top_index < MN_HISTORY_PAGE_MAX - 1){
         (o_MN_menu.m_history_top_index)++;
         (o_MN_menu.mpp_history_page_stack)[(o_MN_menu.m_history_top_index)] = p_target_page;
+        p_target_page->mp_on_forward(p_target_page,NULL);
     }
 }
 
@@ -78,7 +80,12 @@ void MN_menu_page_title_forward(const char * const title){
 
 void MN_menu_page_retreat(){
     if(o_MN_menu.m_history_top_index > 0){
+        MN_page * p_top_page = o_MN_menu.mpp_history_page_stack[o_MN_menu.m_history_top_index];
+        p_top_page->mp_on_retreat(p_top_page,NULL);
         (o_MN_menu.m_history_top_index)--;
+
+        p_top_page = o_MN_menu.mpp_history_page_stack[o_MN_menu.m_history_top_index];
+        p_top_page->mp_on_retreat_from_other_page(p_top_page,NULL);
     }
 }
 

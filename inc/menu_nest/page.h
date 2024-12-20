@@ -13,7 +13,7 @@
 #include "menu_nest/item.h"
 #include "menu_nest/interaction.h"
 
-struct MN_page;
+struct MN_page; // 前向声明
 
 typedef void * ((*MN_page_action_callback_t)(struct MN_page * const,void *)) ;
 
@@ -48,8 +48,20 @@ typedef struct MN_page
     /// @brief 在进入时调用
     MN_page_action_callback_t mp_on_forward;
 
-    /// @brief 在返回时调用
-    MN_page_action_callback_t mp_on_back;
+    /// @brief 在返回上个页面时调用
+    MN_page_action_callback_t mp_on_retreat;
+
+    /// @brief 在从其他页面返回至本页面时调用
+    MN_page_action_callback_t mp_on_retreat_from_other_page;
+
+    /// @brief 在选中物体时调用
+    MN_page_action_callback_t mp_on_select_item;
+
+    /// @brief 在取消选中物体时调用
+    MN_page_action_callback_t mp_on_unselect_item;
+
+    /// @brief 页面的内存，作为拓展使用
+    void * mp_memory;
 } MN_page;
 
 /**
@@ -70,7 +82,6 @@ MN_page * MN_page_create(const char * const title, const uint32_t max_items);
  * 
  * @param[in] self 指向要销毁的页面对象
  * 
- * @warning 请在销毁后将对象指针置空，避免悬空指针
  * ************************************************************************
  */
 void MN_page_destroy(MN_page * const self);
@@ -87,15 +98,13 @@ void MN_page_destroy(MN_page * const self);
  */
 void MN_page_add_item(MN_page * const self, MN_item * const p_item);
 
-
 /**
  * ************************************************************************
- * @brief 在页面中以物体名寻找物体
+ * @brief 在页面中以物体名寻找物体，找到返回物体指针，找不到返回NULL
  * 
  * @param[in] self  指向页面对象
  * @param[in] item_name  要寻找的物体名
  * 
- * @note 如果添加的物体的name已经在该页面中添加过，那么本次添加无效。
  * ************************************************************************
  */
 MN_item * MN_page_find_item(MN_page * const self, const char * const item_name);
@@ -108,10 +117,10 @@ MN_item * MN_page_find_item(MN_page * const self, const char * const item_name);
  * @param[in] self  指向页面对象
  * @param[in] index  要选择的物体对象的下标。(超出有效范围算作取消选择)
  * 
- * @return 选择的物体对象指针(取消选择返回NULL)
+ * @return 选择物体对象时会调用内部的回调函数。返回此回调的结果
  * ************************************************************************
  */
-MN_item * MN_page_select_item(MN_page * const self, const int32_t index);
+void * MN_page_select_item(MN_page * const self, const int32_t index);
 
 /**
  * ************************************************************************
@@ -120,10 +129,21 @@ MN_item * MN_page_select_item(MN_page * const self, const int32_t index);
  * @param[in] self  指向页面对象
  * @param[in] item_name  要选择的物体对象的名称。(超出有效范围算作取消选择)
  * 
- * @return 选择的物体对象指针(取消选择返回NULL)
+ * @return 选择物体对象时会调用内部的回调函数。返回此回调的结果
  * ************************************************************************
  */
-MN_item * MN_page_select_item_name(MN_page * const self, const char * item_name);
+void * MN_page_select_item_by_name(MN_page * const self, const char * item_name);
+
+/**
+ * ************************************************************************
+ * @brief 取消选择页面中的物体对象
+ * 
+ * @param[in] self  指向页面对象
+ * 
+ * @return 选择物体对象时会调用内部的回调函数。返回此回调的结果
+ * ************************************************************************
+ */
+void * MN_page_unselect_item(MN_page * const self);
 
 /**
  * ************************************************************************

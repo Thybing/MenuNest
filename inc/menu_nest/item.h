@@ -16,7 +16,8 @@
 
 struct MN_item;
 
-typedef void * ((*MN_item_action_t)(struct MN_item * const,void *)) ;
+typedef void * ((*MN_item_on_select_callback_t)(struct MN_item * const)) ;
+typedef void * ((*MN_item_on_unselect_callback_t)(struct MN_item * const)) ;
 
 /**
  * ************************************************************************
@@ -28,17 +29,20 @@ typedef struct MN_item
     /// @brief 物体名称
     const char * m_name;
 
+    /// @brief 是否处于选中状态中的标志位
+    bool m_select_flag;
+
     /// @brief 交互模块
     MN_interaction * mp_interaction;
 
-    /// @brief 渲染/显示模块
+    /// @brief 渲染模块
     MN_render * mp_render;
 
-    /// @brief 在被选中时调用
-    MN_item_action_t mp_on_select;
+    /// @brief 在被选中时调用的回调函数
+    MN_item_on_select_callback_t mp_on_select;
 
-    /// @brief 在取消选中时调用
-    MN_item_action_t mp_on_unselect;
+    /// @brief 在取消选中时调用的回调函数
+    MN_item_on_unselect_callback_t mp_on_unselect;
 
     /// @brief 指向内存空间的指针，指向不同的类型的内存生成不同的物体对象
     void * mp_memory;
@@ -62,9 +66,31 @@ MN_item * MN_item_create(const char * const name, void * const p_memory);
  * 
  * @param[in] self 指向要销毁的物体对象
  * 
- * @warning 请在销毁后将对象指针置空，避免悬空指针
  * ************************************************************************
  */
 void MN_item_destroy(MN_item * const self);
+
+/**
+ * ************************************************************************
+ * @brief 物体对象进入选中状态(已经选中的物体对象再次进入选中状态时不会调用回调函数)
+ * 
+ * @param[in] self  指向要选择的物体对象
+ * 
+ * @return 选择物体对象时调用的回调函数返回的指针
+ * ************************************************************************
+ */
+void * MN_item_select(MN_item * const self);
+
+
+/**
+ * ************************************************************************
+ * @brief 物体对象取消选中状态(已经取消选中的物体对象再次取消选中状态时不会调用回调函数)
+ * 
+ * @param[in] self  指向要取消选择的物体对象
+ * 
+ * @return 取消选择物体对象时调用的回调函数返回的指针
+ * ************************************************************************
+ */
+void * MN_item_unselect(MN_item * const self);
 
 #endif //_MENU_NEST_ITEM_H_
