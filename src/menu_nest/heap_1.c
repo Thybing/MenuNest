@@ -8,7 +8,7 @@
 
 // 静态内存池
 static uint8_t heap[HEAP_SIZE];
-stitic size_t heap_offset = 0;
+static size_t heap_offset = 0;
 static bool init_flag = false;
 
 void* MN_heap_malloc(size_t size) {
