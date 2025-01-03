@@ -11,10 +11,10 @@
 #define _MENU_NEST_PAGE_H_
 
 #include "menu_nest/item.h"
-#include "menu_nest/interaction.h"
 
 struct MN_page; // 前向声明
 
+/// @brief 页面对象的回调函数类型
 typedef void * ((*MN_page_action_callback_t)(struct MN_page * const,void *)) ;
 
 /**
@@ -68,7 +68,7 @@ typedef struct MN_page
  * ************************************************************************
  * @brief 创建一个页面对象（如果存在相同标题则直接返回存在的页面）
  * 
- * @param[in] title 页面的标题
+ * @param[in] title 页面的标题，请用静态字符串
  * @param[in] max_items 最大物体对象数量
  * 
  * @return  创建的页面对象指针
@@ -115,9 +115,10 @@ MN_item * MN_page_find_item(MN_page * const self, const char * const item_name);
  * @brief 选择页面中的物体对象
  * 
  * @param[in] self  指向页面对象
- * @param[in] index  要选择的物体对象的下标。(超出有效范围算作取消选择)
+ * @param[in] index  要选择的物体对象的下标。(超出有效范围或者已经选中时无效)
  * 
- * @return 选择物体对象时会调用内部的回调函数。返回此回调的结果
+ * @details 先对选中物体调用MN_item_select，然后调用页面的on_select_item回调函数。(如果之前有选中物体，会先取消选中)
+ * @return 调用页面的on_select_item回调函数的返回值
  * ************************************************************************
  */
 void * MN_page_select_item(MN_page * const self, const int32_t index);
@@ -127,9 +128,9 @@ void * MN_page_select_item(MN_page * const self, const int32_t index);
  * @brief 通过物体名称选择物体对象
  * 
  * @param[in] self  指向页面对象
- * @param[in] item_name  要选择的物体对象的名称。(超出有效范围算作取消选择)
+ * @param[in] item_name  要选择的物体对象的名称。
  * 
- * @return 选择物体对象时会调用内部的回调函数。返回此回调的结果
+ * @return 返回等价的MN_page_select_item的返回值
  * ************************************************************************
  */
 void * MN_page_select_item_by_name(MN_page * const self, const char * item_name);
@@ -140,7 +141,8 @@ void * MN_page_select_item_by_name(MN_page * const self, const char * item_name)
  * 
  * @param[in] self  指向页面对象
  * 
- * @return 选择物体对象时会调用内部的回调函数。返回此回调的结果
+ * @details 先对选中物体调用MN_item_unselect，然后调用页面的on_unselect_item回调函数
+ * @return 选择物体对象时调用页面的on_unselect_item回调函数的返回值
  * ************************************************************************
  */
 void * MN_page_unselect_item(MN_page * const self);

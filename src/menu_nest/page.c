@@ -14,6 +14,7 @@ static void * ((MN_page_action_empty_callback)(MN_page * const self,void * param
 
 MN_page * MN_page_create(const char * const title, const uint32_t item_max){
     MN_assert(title);
+    MN_assert(page_pool_used < MN_PAGE_MAX_NUM);
 
     MN_page * find_page = MN_find_page(title);
     if(find_page) {
