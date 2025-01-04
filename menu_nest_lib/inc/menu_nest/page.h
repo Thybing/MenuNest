@@ -45,11 +45,14 @@ typedef struct MN_page
     /// @brief 渲染/显示模块
     MN_render * mp_render;
 
-    /// @brief 在进入时调用
+    /// @brief 在进入本页面时调用
     MN_page_action_callback_t mp_on_forward;
 
     /// @brief 在返回上个页面时调用
     MN_page_action_callback_t mp_on_retreat;
+
+    /// @brief 在从本页面前往其他页面时调用
+    MN_page_action_callback_t mp_on_forward_to_other_page;
 
     /// @brief 在从其他页面返回至本页面时调用
     MN_page_action_callback_t mp_on_retreat_from_other_page;

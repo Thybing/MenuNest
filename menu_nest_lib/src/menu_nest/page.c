@@ -34,6 +34,7 @@ MN_page * MN_page_create(const char * const title, const uint32_t item_max){
         new_page->mp_render = MN_render_create(new_page);
         new_page->mp_on_forward = MN_page_action_empty_callback;
         new_page->mp_on_retreat = MN_page_action_empty_callback;
+        new_page->mp_on_forward_to_other_page = MN_page_action_empty_callback;
         new_page->mp_on_retreat_from_other_page = MN_page_action_empty_callback;
         new_page->mp_on_select_item = MN_page_action_empty_callback;
         new_page->mp_on_unselect_item = MN_page_action_empty_callback;

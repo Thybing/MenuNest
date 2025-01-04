@@ -88,8 +88,12 @@ void MN_menu_page_forward(MN_page * const p_target_page){
     MN_assert(p_target_page);
 
     if(o_MN_menu.m_history_top_index < MN_HISTORY_PAGE_MAX - 1){
+        // 调用当前页面的on_forward_to_other_page回调
+        MN_page * p_cur_page = o_MN_menu.mpp_history_page_stack[o_MN_menu.m_history_top_index];
+        p_cur_page->mp_on_forward_to_other_page(p_cur_page,NULL);
+
         (o_MN_menu.m_history_top_index)++;
-        (o_MN_menu.mpp_history_page_stack)[(o_MN_menu.m_history_top_index)] = p_target_page;
+        (o_MN_menu.mpp_history_page_stack)[o_MN_menu.m_history_top_index] = p_target_page;
 
         // 调用目标页面的on_forward回调
         p_target_page->mp_on_forward(p_target_page,NULL);
