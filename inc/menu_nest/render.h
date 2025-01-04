@@ -28,7 +28,7 @@ typedef struct MN_render{
     /// @brief 渲染回调函数
     rendering_callback_t m_rendering_callback;
 
-    /// @brief 需要渲染的信息，一般为其所属对象
+    /// @brief 需要渲染的信息，一般为持有此渲染模块的对象
     void * mp_memory;
 
     /// @brief 渲染模块自身属性内存，扩展用

@@ -39,7 +39,7 @@ typedef struct MN_interaction
 {
     /// @brief 交互处理回调函数
     interaction_callback_t m_handle_callback;
-    /// @brief 内存，一般为其所属对象
+    /// @brief 交互模块所操作的内存，一般指向持有此交互模块的对象
     void * mp_memory;
 }MN_interaction;
 
