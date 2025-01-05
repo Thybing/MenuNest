@@ -33,13 +33,17 @@ typedef bool (* interaction_callback_t)(struct MN_interaction * const,const inpu
 /**
  * ************************************************************************
  * @brief 交互模块
+ * @note 会以[get,set]标注用户的直接读写权限，没有标注为的成员变量为内部使用，不建议用户直接操作
  * ************************************************************************
  */
 typedef struct MN_interaction
 {
     /// @brief 交互处理回调函数
+    /// @note  [get,set] 用户可以自定义回调函数并设置，set最好统一使用MN_interaction_set_handle_callback
     interaction_callback_t m_handle_callback;
+
     /// @brief 交互模块所操作的内存，一般指向持有此交互模块的对象
+    /// @note  [get] 用户可以访问到内存空间，不建议用户进行set操作，set建议直接使用MN_interaction_create
     void * mp_memory;
 }MN_interaction;
 
@@ -75,16 +79,5 @@ void MN_interaction_destroy(MN_interaction * const self);
  */
 void MN_interaction_set_handle_callback(MN_interaction * const self,const interaction_callback_t callback);
 
-/**
- * ************************************************************************
- * @brief  处理输入
- * 
- * @param[in] self  指向调用对象
- * @param[in] input  输入
- * 
- * @return 输入模块是否捕获此输入，捕获返回true，否则返回false
- * ************************************************************************
- */
-bool MN_interaction_handle_input(MN_interaction * const self,const input_t input);
 
 #endif //_MENU_NEST_INTERACTION_H_

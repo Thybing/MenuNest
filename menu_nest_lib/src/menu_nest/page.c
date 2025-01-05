@@ -2,6 +2,7 @@
 #include "menu_nest/common.h"
 #include "string.h"
 
+#include "menu_nest/internal_func.h"
 
 static MN_page * (page_pool[MN_PAGE_MAX_NUM]) = {0};
 static uint32_t page_pool_used = 0;

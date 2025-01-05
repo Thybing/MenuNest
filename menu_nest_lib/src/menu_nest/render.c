@@ -1,6 +1,7 @@
 #include "menu_nest/render.h"
 #include "menu_nest/common.h"
 
+#include "menu_nest/internal_func.h"
 
 static void MN_render_empty_rendering_callback(struct MN_render * const self, void * p_param){
     MN_assert(self);

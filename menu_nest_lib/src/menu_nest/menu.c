@@ -2,6 +2,8 @@
 #include "menu_nest/common.h"
 #include "stdbool.h"
 
+#include "menu_nest/internal_func.h"
+
 /**
  * ************************************************************************
  * @brief 菜单模块

@@ -1,6 +1,8 @@
 #include "menu_nest/interaction.h"
 #include "menu_nest/common.h"
 
+#include "menu_nest/internal_func.h"
+
 // 默认的交互处理回调函数，不做任何处理，不捕获任何输入
 static bool MN_interaction_empty_callback(struct MN_interaction * const self,const input_t input){
     return false;

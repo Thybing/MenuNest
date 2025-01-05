@@ -1,6 +1,8 @@
 #include "menu_nest/item.h"
 #include "menu_nest/common.h"
 
+#include "menu_nest/internal_func.h"
+
 //item选择和取消选择行为的默认函数
 static void * (MN_item_on_select_empty_callback)(MN_item * const self){
     MN_assert(self);
