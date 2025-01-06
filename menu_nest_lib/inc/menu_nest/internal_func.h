@@ -12,7 +12,6 @@
 #define MENU_NEST_INTERNAL_FUNC_H
 
 #include "menu_nest/item.h"
-#include "menu_nest/render.h"
 #include "menu_nest/interaction.h"
 
 
@@ -55,15 +54,5 @@ void * MN_item_unselect(MN_item * const self);
  */
 bool MN_interaction_handle_input(MN_interaction * const self,const input_t input);
 
-/**
- * ************************************************************************
- * @brief 开始渲染
- * @internal  仅供内部调用
- * 
- * @param[in] self  指向渲染模块自身
- * @param[in] p_render_param  渲染时所需要的参数
- * ************************************************************************
- */
-void MN_render_rendering(MN_render * const self, void * const p_render_param);
-
 #endif // MENU_NEST_INTERNAL_FUNC_H
+

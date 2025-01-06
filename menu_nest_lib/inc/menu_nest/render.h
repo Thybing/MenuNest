@@ -93,4 +93,15 @@ void MN_render_set_attribute(MN_render * const self,void * const p_attribute);
  */
 void * MN_render_get_attribute(MN_render * const self);
 
+/**
+ * ************************************************************************
+ * @brief 开始渲染
+ * 
+ * @param[in] self  指向渲染模块自身
+ * @param[in] p_render_param  渲染时所需要的参数
+ * ************************************************************************
+ */
+void MN_render_rendering(MN_render * const self, void * const p_render_param);
+
+
 #endif //_MENU_NEST_RENDER_H_
