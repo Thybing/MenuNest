@@ -542,3 +542,118 @@ void* get_item_static_variable_ptr(const char* const page_title, const char* con
     }
     return ((item_static_variable_t*)(p_item->mp_memory))->mp_var_obj;
 }
+
+static_var_command_ctrl_errno item_static_var_command_ctrl(char* command, const uint32_t len) {
+    char* p_cur = command;
+    if (!(len >= 3 && command[0] == 'M' && command[1] == 'N' && command[2] == ':')) {
+        return static_var_command_fmt_err;
+    }
+    p_cur += 3;
+    char* page_title = NULL;
+    uint32_t title_len = 0;
+    char* item_name = NULL;
+    uint32_t item_name_len = 0;
+    char* ctrl_command = NULL;
+    uint32_t command_len = 0;
+
+    for (; p_cur < command + len; p_cur++) {
+        if (*p_cur == ':') {
+            if (page_title == NULL) {
+                page_title = command + 3;
+                title_len = p_cur - page_title;
+            } else if (item_name == NULL) {
+                item_name = page_title + title_len + 1;
+                item_name_len = p_cur - item_name;
+            }
+        } else if (*p_cur == ';') {
+            ctrl_command = item_name + item_name_len + 1;
+            command_len = p_cur - ctrl_command;
+            break;
+        }
+    }
+
+    if (title_len == 0 || item_name_len == 0 || command_len == 0) {
+        return static_var_command_fmt_err;
+    }
+
+    // command parser
+    *(page_title + title_len) = '\0';
+    *(item_name + item_name_len) = '\0';
+    *(ctrl_command + command_len) = '\0';
+
+    MN_page* p_page = MN_find_page(page_title);
+    if (!p_page) {
+        return static_var_command_page_not_found;
+    }
+    MN_item* p_item = MN_page_find_item(p_page, item_name);
+    if (!p_item) {
+        return static_var_command_item_not_found;
+    }
+
+    void* p_var = (((item_static_variable_t*)(p_item->mp_memory))->mp_var_obj);
+    switch (((item_static_variable_t*)(p_item->mp_memory))->m_type) {
+        case TYPE_I8:
+            if (sscanf(ctrl_command, "%" SCNi8, (int8_t*)p_var) != 1) {
+                return static_var_command_var_fmt_err;
+            }
+            break;
+        case TYPE_I16:
+            if (sscanf(ctrl_command, "%" SCNi16, (int16_t*)p_var) != 1) {
+                return static_var_command_var_fmt_err;
+            }
+            break;
+        case TYPE_I32:
+            if (sscanf(ctrl_command, "%" SCNi32, (int32_t*)p_var) != 1) {
+                return static_var_command_var_fmt_err;
+            }
+            break;
+        case TYPE_I64:
+            if (sscanf(ctrl_command, "%" SCNi64, (int64_t*)p_var) != 1) {
+                return static_var_command_var_fmt_err;
+            }
+            break;
+
+        case TYPE_U8:
+            if (sscanf(ctrl_command, "%" SCNu8, (uint8_t*)p_var) != 1) {
+                return static_var_command_var_fmt_err;
+            }
+            break;
+        case TYPE_U16:
+            if (sscanf(ctrl_command, "%" SCNu16, (uint16_t*)p_var) != 1) {
+                return static_var_command_var_fmt_err;
+            }
+            break;
+        case TYPE_U32:
+            if (sscanf(ctrl_command, "%" SCNu32, (uint32_t*)p_var) != 1) {
+                return static_var_command_var_fmt_err;
+            }
+            break;
+        case TYPE_U64:
+            if (sscanf(ctrl_command, "%" SCNu64, (uint64_t*)p_var) != 1) {
+                return static_var_command_var_fmt_err;
+            }
+            break;
+
+        case TYPE_F32:
+            if (sscanf(ctrl_command, "%f", (float*)p_var) != 1) {
+                return static_var_command_var_fmt_err;
+            }
+            break;
+        case TYPE_F64:
+            if (sscanf(ctrl_command, "%lf", (double*)p_var) != 1) {
+                return static_var_command_var_fmt_err;
+            }
+            break;
+
+        case TYPE_BOOL:
+            if (*ctrl_command != '0' && *ctrl_command != '1') {
+                return static_var_command_var_fmt_err;
+            }
+            *(bool*)p_var = (*ctrl_command == '1');
+            break;
+
+        default:
+            return static_var_command_unknown_type;  // 未知类型
+    }
+    return static_var_command_no_err;
+}
