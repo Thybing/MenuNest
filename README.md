@@ -9,7 +9,7 @@ TODO：该框架的最初目的是为了开发一个丝滑菜单，所以后续�
 ## 快速开始
 
 ### 不想二次开发，只想找一个嵌入式菜单？
-先至少阅读到核心步骤 , 然后直接在Example中找到基于tiny的示例工程
+先至少阅读到核心步骤 , 然后直接在Example中获取基于tiny的示例工程。
 
 ### 添加库
 
@@ -20,33 +20,32 @@ TODO：该框架的最初目的是为了开发一个丝滑菜单，所以后续�
 ### 进行简单的接口实现
 
 1, 添加断言
-在 menu_nest_lib/inc/menu_nest/common.h中
+在 menu_nest_lib/inc/menu_nest/common.h中找到
 ```c
 #define MN_assert(x)
 ```
+
 在这里添加断言宏(可以include开发板的头文件)。请务必要添加，防止找不到错误的位置。如果实在不会写，也可以陷入一个死循环，并且点亮一个灯作为标识，防止程序在错误下继续执行。
 例如:
 ```c
-#include "headfile_of_this_board.h"
+#include "some_headfile_for_your_assert.h"
+
 #define MN_assert(x) assert_func_of_this_board(x)
-//实在不会写的下策:
+// 可以勉强用下面这样，或者自己写其它的
 #define MN_assert(x) do{ \
     if(!(x)) { \
-        //点一个灯作为assert触发的标识，最好把中断也关了。
-        led_on(); \
+        assert_led_on(); \
         while(1); \
     } \
 }while(0)
 ```
 
-如果不需要menu_nest_tiny，那么该框架已经被移植完成了。
+基础的框架已经完成了。接下来是在此基础上移植menu_nest_tiny的过程
 
-2, 实现menu_nest_tiny/display.c中的绘制接口(绘制有点简陋，就四个函数，文件内有提示)。
+2, 实现menu_nest_tiny/display.c中的绘制接口(为移植方便，暂仅有几个函数)。修改menu_nest_tiny/display.h中的显示参数宏定义(文件内有提示)。
 
-3, 修改menu_nest_tiny/display.h中的显示参数宏定义(文件内有提示)。
 
 ### 如何使用？
-
 
 #### 核心步骤
 
@@ -54,11 +53,24 @@ TODO：该框架的最初目的是为了开发一个丝滑菜单，所以后续�
 
 2.创建一个页面。调用MN_menu_init并将刚刚的页面作为主页面传入。
 
-3.在主循环中调用
+3.程序中如果检测到输入，那么将输入添加到输入队列中。(MN_menu_input(XXX))
+
+4.在主循环中调用
 MN_menu_handle_input_queue()
 MN_menu_rendering()
-来处理你的输入和显示你的当前页面。
+来处理你的输入队列和显示你的当前页面。
 
+#### 如何输入与菜单进行交互？
+
+要编写相应的交互函数，然后作为menu/page/item的回调函数传入。
+
+在输入触发时调用MN_menu_input(XXX)将输入添加到输入队列中。
+
+在主循环调用MN_menu_handle_input_queue()，它会自动的按照一定次序调用交互模块。
+
+对于menu_nest_tiny，库中的page与item都已经编写并设置了相应的回调函数。menu_nest_tiny/display.c 中定义了一些按键输入。在对应的按键触发后，调用函数MM_menu_input(XXX)将输入添加到菜单的输入队列中。示例中有完整过程。示例中用到了我写的一个[按键库](https://github.com/Thybing/Button)来检测按键触发。
+
+详细请直接阅读框架中的注释。
 
 #### 如何创建page或item？
 
@@ -66,18 +78,9 @@ MN_menu_rendering()
 
 在menu_nest_tiny中已经写好了一些比较常用的item和page。能够满足简单的嵌入式项目的使用。如果有满足不了需要的地方可以自己根据框架进行二次开发。
 
-#### 如何输入与菜单进行交互？
 
-要编写相应的交互函数，然后作为menu/page/item的回调函数传入。（tiny库中的page与item都已经编写并设置了相应的回调函数）
-
-在输入触发时调用MN_menu_input()将输入添加到输入队列中。
-
-在主循环调用MN_menu_handle_input_queue()，它会自动的按照一定次序调用交互模块。
-
-详细请直接阅读框架中的注释。
-
-#### tiny库使用起来功能不少，但是看着有点简陋？
-由于可移植性的考量和tiny库编写时没有可用的图形库的限制。调用的绘制函数相当有限(从刚刚的对接tiny的接口也看出来了。一共就显示字符串，清屏，画横线竖线)，所以tiny库中的渲染效果比较(非常)简陋。当然可以自己进行二次开发，重写其中的渲染回调。
+#### menu_nest_tiny库看着有点简陋？
+由于可移植性的考量和tiny库编写时没有可用的图形库的限制。调用的绘制函数相当有限(从对接的接口也看出来了。只有显示字符串，清屏，画横线竖线)，所以tiny库中的渲染效果比较(非常)简陋。当然可以自己进行二次开发，重写其中的渲染回调。
 
 
 ## 基本设计思路
@@ -92,3 +95,6 @@ menu、每一个page、每一个item都有一个指针指向一个interaction模
 
 每一个page、item、都有一个指针指向其render渲染模块。同上，render渲染模块中也会有一个指针指向其所有者。这些render模块用来进行菜单的渲染任务。菜单是以页面作为渲染调度的单位，会进行当前页面的渲染任务。所以没有给menu对象添加渲染模块。
 
+## 第三方库
+
+在menu_nest_tiny的示例中调用了我之前写过的一个按键库。[Button](https://github.com/Thybing/Button)

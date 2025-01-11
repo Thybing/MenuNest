@@ -3,13 +3,14 @@
 #include "menu_nest/common.h"
 
 #include "menu_nest_tiny/input_def.h"
-static const input_t BASE_PAGE_UP = BUTTON_0_CLICK;
-static const input_t BASE_PAGE_DOWN = BUTTON_1_CLICK;
-static const input_t BASE_PAGE_SELECT = BUTTON_2_CLICK;
-static const input_t BASE_PAGE_BACK = BUTTON_3_CLICK;
+static const input_t BASE_PAGE_UP = BUTTON_0_CLICK;  // 用于向上调整候选项
+static const input_t BASE_PAGE_DOWN = BUTTON_1_CLICK; // 用于向下调整候选项
+static const input_t BASE_PAGE_SELECT = BUTTON_2_CLICK;  // 用于选中候选项
+static const input_t BASE_PAGE_BACK = BUTTON_3_CLICK; // 用于返回(取消选中或者返回上一页面)
 
 // 该页面的内部参数
 typedef struct {
+    // 候选项的索引
     uint16_t candidate_index;
 } page_base_params_t;
 

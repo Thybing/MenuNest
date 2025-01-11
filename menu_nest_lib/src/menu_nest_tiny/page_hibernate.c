@@ -3,7 +3,7 @@
 #include "menu_nest/common.h"
 #include "menu_nest_tiny/display.h"
 #include "menu_nest_tiny/input_def.h"
-static const input_t EXIT_HIBERNATE = BUTTON_3_CLICK;
+static const input_t EXIT_HIBERNATE = BUTTON_3_CLICK;  // 用于退出休眠
 
 static MN_page* p_default_hibernate_page = NULL;
 

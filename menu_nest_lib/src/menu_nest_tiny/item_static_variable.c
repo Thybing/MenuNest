@@ -2,19 +2,17 @@
 
 #include "inttypes.h"
 #include "math.h"
-#include "string.h"
-#include "stdio.h"
-
-#include "menu_nest_tiny/display.h"
 #include "menu_nest/common.h"
-
+#include "menu_nest_tiny/display.h"
 #include "menu_nest_tiny/input_def.h"
+#include "stdio.h"
+#include "string.h"
 
 // 定义输入操作
-static const input_t VAR_UP = BUTTON_0_CLICK;
-static const input_t VAR_DOWN = BUTTON_1_CLICK;
-static const input_t STEP_UP = BUTTON_0_LONG_PRESS;
-static const input_t STEP_DOWN = BUTTON_1_LONG_PRESS;
+static const input_t VAR_UP = BUTTON_0_CLICK;          // 用于变量增加
+static const input_t VAR_DOWN = BUTTON_1_CLICK;        // 用于变量减少
+static const input_t STEP_UP = BUTTON_0_LONG_PRESS;    // 用于步长增加
+static const input_t STEP_DOWN = BUTTON_1_LONG_PRESS;  // 用于步长减少
 
 // 前向声明
 struct item_static_variable_t;
@@ -22,7 +20,7 @@ struct item_static_variable_t;
 typedef enum direction_t {
     DOWN = 0,
     UP,
-}direction_t;
+} direction_t;
 
 // 以下的几个回调函数的类型
 typedef void (*var_to_string_callback_t)(struct item_static_variable_t* p_static_variable);
@@ -31,16 +29,16 @@ typedef void (*step_change_callback_t)(struct item_static_variable_t* p_static_v
 
 // item所指向的类型
 typedef struct item_static_variable_t {
-    const char* m_name;                             // 变量的名字
-    basic_type m_type;                              // 变量的类型
-    void* mp_var_obj;                               // 变量的指针
-    void* mp_step;                                  // 变量的步长
+    const char* m_name;  // 变量的名字
+    basic_type m_type;   // 变量的类型
+    void* mp_var_obj;    // 变量的指针
+    void* mp_step;       // 变量的步长
 } item_static_variable_t;
 
-// item的render的属性结构体。这里是两个字符串 
+// item的render的属性结构体。这里是两个字符串
 typedef struct item_static_variable_render_attr_t {
-    char* mp_fmt_buffer;                            // 格式化后的字符串
-    char* mp_step_fmt_buffer;                       // 格式化后的步长字符串
+    char* mp_fmt_buffer;       // 格式化后的字符串
+    char* mp_step_fmt_buffer;  // 格式化后的步长字符串
 } item_static_variable_render_attr_t;
 
 // 变量名的长度和浮点数的精度，可以通过宏定义修改
@@ -71,21 +69,24 @@ static void static_var_to_render_str(MN_item* const p_item) {
         }
         case TYPE_I16: {
             int16_t* p_i16 = (int16_t*)p_static_var->mp_var_obj;
-            snprintf(p_render_attr->mp_fmt_buffer, LINE_MAX_CHAR_NUM + 1, "%" PRI_VAR_NAME ":%" PRIi16, var_name, *p_i16);
+            snprintf(p_render_attr->mp_fmt_buffer, LINE_MAX_CHAR_NUM + 1, "%" PRI_VAR_NAME ":%" PRIi16, var_name,
+                     *p_i16);
             snprintf(p_render_attr->mp_step_fmt_buffer, LINE_MAX_CHAR_NUM + 1, "step:%" PRIi16,
                      *(int16_t*)(p_static_var->mp_step));
             break;
         }
         case TYPE_I32: {
             int32_t* p_i32 = (int32_t*)p_static_var->mp_var_obj;
-            snprintf(p_render_attr->mp_fmt_buffer, LINE_MAX_CHAR_NUM + 1, "%" PRI_VAR_NAME ":%" PRIi32, var_name, *p_i32);
+            snprintf(p_render_attr->mp_fmt_buffer, LINE_MAX_CHAR_NUM + 1, "%" PRI_VAR_NAME ":%" PRIi32, var_name,
+                     *p_i32);
             snprintf(p_render_attr->mp_step_fmt_buffer, LINE_MAX_CHAR_NUM + 1, "step:%" PRIi32,
                      *(int32_t*)(p_static_var->mp_step));
             break;
         }
         case TYPE_I64: {
             int64_t* p_i64 = (int64_t*)p_static_var->mp_var_obj;
-            snprintf(p_render_attr->mp_fmt_buffer, LINE_MAX_CHAR_NUM + 1, "%" PRI_VAR_NAME ":%" PRIi64, var_name, *p_i64);
+            snprintf(p_render_attr->mp_fmt_buffer, LINE_MAX_CHAR_NUM + 1, "%" PRI_VAR_NAME ":%" PRIi64, var_name,
+                     *p_i64);
             snprintf(p_render_attr->mp_step_fmt_buffer, LINE_MAX_CHAR_NUM + 1, "step:%" PRIi64,
                      *(int64_t*)(p_static_var->mp_step));
             break;
@@ -99,37 +100,40 @@ static void static_var_to_render_str(MN_item* const p_item) {
         }
         case TYPE_U16: {
             uint16_t* p_u16 = (uint16_t*)p_static_var->mp_var_obj;
-            snprintf(p_render_attr->mp_fmt_buffer, LINE_MAX_CHAR_NUM + 1, "%" PRI_VAR_NAME ":%" PRIu16, var_name, *p_u16);
+            snprintf(p_render_attr->mp_fmt_buffer, LINE_MAX_CHAR_NUM + 1, "%" PRI_VAR_NAME ":%" PRIu16, var_name,
+                     *p_u16);
             snprintf(p_render_attr->mp_step_fmt_buffer, LINE_MAX_CHAR_NUM + 1, "step:%" PRIu16,
                      *(uint16_t*)(p_static_var->mp_step));
             break;
         }
         case TYPE_U32: {
             uint32_t* p_u32 = (uint32_t*)p_static_var->mp_var_obj;
-            snprintf(p_render_attr->mp_fmt_buffer, LINE_MAX_CHAR_NUM + 1, "%" PRI_VAR_NAME ":%" PRIu32, var_name, *p_u32);
+            snprintf(p_render_attr->mp_fmt_buffer, LINE_MAX_CHAR_NUM + 1, "%" PRI_VAR_NAME ":%" PRIu32, var_name,
+                     *p_u32);
             snprintf(p_render_attr->mp_step_fmt_buffer, LINE_MAX_CHAR_NUM + 1, "step:%" PRIu32,
                      *(uint32_t*)(p_static_var->mp_step));
             break;
         }
         case TYPE_U64: {
             uint64_t* p_u64 = (uint64_t*)p_static_var->mp_var_obj;
-            snprintf(p_render_attr->mp_fmt_buffer, LINE_MAX_CHAR_NUM + 1, "%" PRI_VAR_NAME ":%" PRIu64, var_name, *p_u64);
+            snprintf(p_render_attr->mp_fmt_buffer, LINE_MAX_CHAR_NUM + 1, "%" PRI_VAR_NAME ":%" PRIu64, var_name,
+                     *p_u64);
             snprintf(p_render_attr->mp_step_fmt_buffer, LINE_MAX_CHAR_NUM + 1, "step:%" PRIu64,
                      *(uint64_t*)(p_static_var->mp_step));
             break;
         }
         case TYPE_F32: {
             float* p_f32 = (float*)p_static_var->mp_var_obj;
-            snprintf(p_render_attr->mp_fmt_buffer, LINE_MAX_CHAR_NUM + 1, "%" PRI_VAR_NAME ":%." PRI_FLOAT_PRECISION "f",
-                     var_name, *p_f32);
+            snprintf(p_render_attr->mp_fmt_buffer, LINE_MAX_CHAR_NUM + 1,
+                     "%" PRI_VAR_NAME ":%." PRI_FLOAT_PRECISION "f", var_name, *p_f32);
             snprintf(p_render_attr->mp_step_fmt_buffer, LINE_MAX_CHAR_NUM + 1, "step: 10e %d",
                      *(int*)(p_static_var->mp_step));
             break;
         }
         case TYPE_F64: {
             double* p_f64 = (double*)p_static_var->mp_var_obj;
-            snprintf(p_render_attr->mp_fmt_buffer, LINE_MAX_CHAR_NUM + 1, "%" PRI_VAR_NAME ":%." PRI_FLOAT_PRECISION "lf",
-                     var_name, *p_f64);
+            snprintf(p_render_attr->mp_fmt_buffer, LINE_MAX_CHAR_NUM + 1,
+                     "%" PRI_VAR_NAME ":%." PRI_FLOAT_PRECISION "lf", var_name, *p_f64);
             snprintf(p_render_attr->mp_step_fmt_buffer, LINE_MAX_CHAR_NUM + 1, "step: 10e %d",
                      *(int*)(p_static_var->mp_step));
             break;
@@ -170,8 +174,8 @@ static void static_var_to_render_str(MN_item* const p_item) {
 }
 
 // 各种类型的变量改变的函数
-static void var_change(MN_item const * p_item, direction_t dir) {
-    item_static_variable_t * p_static_variable = p_item->mp_memory;
+static void var_change(MN_item const* p_item, direction_t dir) {
+    item_static_variable_t* p_static_variable = p_item->mp_memory;
     switch (p_static_variable->m_type) {
         case TYPE_I8: {
             int8_t* p_var = (int8_t*)p_static_variable->mp_var_obj;
@@ -238,7 +242,7 @@ static void var_change(MN_item const * p_item, direction_t dir) {
             *p_step = dir ? (*p_step + 1) : (*p_step > 1 ? *p_step - 1 : 1);
             break;
         }
-        case TYPE_BOOL:{
+        case TYPE_BOOL: {
             break;
         }
         default: {
@@ -248,8 +252,8 @@ static void var_change(MN_item const * p_item, direction_t dir) {
 }
 
 // 步长改变的函数
-static void step_change(MN_item * p_item, direction_t dir) {
-    item_static_variable_t * p_static_variable = p_item->mp_memory;
+static void step_change(MN_item* p_item, direction_t dir) {
+    item_static_variable_t* p_static_variable = p_item->mp_memory;
     switch (p_static_variable->m_type) {
         case TYPE_I8: {
             int8_t* p_step = (int8_t*)p_static_variable->mp_step;
@@ -404,7 +408,6 @@ static void item_static_variable_rendering_callback(MN_render* const p_item_rend
     MN_item* const p_item = p_item_render->mp_memory;
     uint16_t* const p_used_line = p_y_offset;
 
-
     static_var_to_render_str(p_item);
     item_static_variable_render_attr_t* p_render_attr = p_item->mp_render->mp_attribute;
     display_line_text(*p_used_line, p_render_attr->mp_fmt_buffer);
@@ -423,7 +426,6 @@ static void* item_static_var_on_select_callback(struct MN_item* const p_item) {
     }
     return NULL;
 }
-
 
 /**
  ****************************************************************
@@ -519,9 +521,11 @@ MN_item* create_item_static_variable(const char* const item_name, void* p_var, e
     p_item_static_var->mp_on_select = item_static_var_on_select_callback;
 
     p_item_static_var->mp_render->mp_attribute = MN_malloc(sizeof(struct item_static_variable_render_attr_t));
-    ((item_static_variable_render_attr_t*)p_item_static_var->mp_render->mp_attribute)->mp_fmt_buffer = MN_malloc(LINE_MAX_CHAR_NUM + 1)
-    ((item_static_variable_render_attr_t*)p_item_static_var->mp_render->mp_attribute)->mp_step_fmt_buffer = MN_malloc(LINE_MAX_CHAR_NUM + 1)
-    MN_render_set_rendering_callback(p_item_static_var->mp_render, item_static_variable_rendering_callback);
+    ((item_static_variable_render_attr_t*)p_item_static_var->mp_render->mp_attribute)->mp_fmt_buffer =
+        MN_malloc(LINE_MAX_CHAR_NUM +
+                  1)((item_static_variable_render_attr_t*)p_item_static_var->mp_render->mp_attribute)
+            ->mp_step_fmt_buffer = MN_malloc(LINE_MAX_CHAR_NUM + 1)
+            MN_render_set_rendering_callback(p_item_static_var->mp_render, item_static_variable_rendering_callback);
     MN_interaction_set_handle_callback(p_item_static_var->mp_interaction, item_static_variable_interaction_callback);
     return p_item_static_var;
 }
