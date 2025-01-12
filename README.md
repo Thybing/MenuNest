@@ -97,4 +97,8 @@ menu、每一个page、每一个item都有一个指针指向一个interaction模
 
 ## 第三方库
 
+在示例中的stm32_f103的示例内，使用了Stm32CubeMX生成的工程模板。
+
+在示例中的stm32_f103的示例内，使用了ssd1306驱动屏幕的驱动库。来自仓库[https://github.com/afiskon/stm32-ssd1306](https://github.com/afiskon/stm32-ssd1306)
+
 在menu_nest_tiny的示例中调用了我之前写过的一个按键库。[Button](https://github.com/Thybing/Button)

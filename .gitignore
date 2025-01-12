@@ -7,3 +7,5 @@
 !menu_nest_lib/src/**/*
 !menu_nest_lib/inc/**/*
 !doc/design/*.md
+
+!example/**/*
